@@ -56,6 +56,12 @@ variable "build_node_pool_max_node_count" {
   default     = 3
 }
 
+variable "build_node_pool_spot" {
+  description = "Enable Spot VMs for the Android build node pool to reduce cost by ~60-70%. Spot nodes may be preempted by GCP."
+  type        = bool
+  default     = true
+}
+
 variable "abfs_build_node_pool_name" {
   description = "Name of the ABFS build node pool"
   type        = string
@@ -81,6 +87,12 @@ variable "abfs_build_node_pool_max_node_count" {
   description = "Number max of nodes for the ABFS build node pool"
   type        = number
   default     = 3
+}
+
+variable "abfs_build_node_pool_spot" {
+  description = "Enable Spot VMs for the Android ABFS build node pool to reduce cost by ~60-70%. Spot nodes may be preempted by GCP."
+  type        = bool
+  default     = true
 }
 
 variable "openbsw_build_node_pool_name" {
@@ -110,6 +122,12 @@ variable "openbsw_build_node_pool_max_node_count" {
   default     = 3
 }
 
+variable "openbsw_build_node_pool_spot" {
+  description = "Enable Spot VMs for the OpenBSW build node pool to reduce cost by ~60-70%. Spot nodes may be preempted by GCP."
+  type        = bool
+  default     = true
+}
+
 variable "network" {
   description = "Name of the network"
   type        = string
@@ -119,7 +137,6 @@ variable "subnetwork" {
   description = "Name of the subnetwork"
   type        = string
 }
-
 
 variable "location" {
   description = "Define the default location for the project"
@@ -147,5 +164,3 @@ variable "node_count" {
   type        = number
   default     = 1
 }
-
-
