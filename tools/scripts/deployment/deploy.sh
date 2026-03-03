@@ -215,13 +215,20 @@ run_terraform() {
         if gcloud container fleet memberships describe "$GKE_CLUSTER" --project="$PROJECT_ID" --location="$LOCATION" &>/dev/null; then
              log_info "Cleaning up Fleet Membership..."
              gcloud container fleet memberships get-credentials "$GKE_CLUSTER" --project="$PROJECT_ID"
-             kubectl delete applications --all -n argocd --ignore-not-found
-             kubectl delete appprojects --all -n argocd --ignore-not-found
              
-             log_info "Waiting 5 minutes for Kubernetes resource removal..."
-             sleep 5m
+             # NEW: Only attempt deletion if the CRD exists
+             if kubectl api-resources | grep -q "applications.argoproj.io"; then
+                 log_info "Deleting Argo CD Applications..."
+                 # Use the full name to avoid ambiguity
+                 kubectl delete applications.argoproj.io --all -n argocd --ignore-not-found
+                 kubectl delete appprojects.argoproj.io --all -n argocd --ignore-not-found
+                 
+                 log_info "Waiting 5 minutes for Kubernetes resource removal..."
+                 sleep 5m
+             else
+                 log_warn "Argo CD resources not found in cluster, skipping cleanup..."
+             fi
         fi
-
         terraform destroy -auto-approve
     else
         log_info "Running Terraform Apply..."
