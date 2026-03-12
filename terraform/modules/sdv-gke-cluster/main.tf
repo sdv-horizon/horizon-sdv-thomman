@@ -142,10 +142,7 @@ resource "google_container_node_pool" "sdv_build_node_pool" {
   node_count     = var.build_node_pool_node_count
   node_locations = var.node_locations
   node_config {
-    # Use Spot VMs for Android build workloads to reduce cost by ~60-70%.
-    # Spot VMs can be preempted by GCP; autoscaling will re-provision them.
-    # Set var.build_node_pool_spot = false to revert to on-demand nodes.
-    spot         = var.build_node_pool_spot
+    preemptible  = false
     machine_type = var.build_node_pool_machine_type
     disk_size_gb = 500
     image_type   = "UBUNTU_CONTAINERD"
@@ -190,10 +187,7 @@ resource "google_container_node_pool" "sdv_abfs_build_node_pool" {
   node_count     = var.abfs_build_node_pool_node_count
   node_locations = var.node_locations
   node_config {
-    # Use Spot VMs for Android ABFS build workloads to reduce cost by ~60-70%.
-    # Spot VMs can be preempted by GCP; autoscaling will re-provision them.
-    # Set var.abfs_build_node_pool_spot = false to revert to on-demand nodes.
-    spot         = var.abfs_build_node_pool_spot
+    preemptible  = false
     machine_type = var.abfs_build_node_pool_machine_type
     disk_size_gb = 500
     image_type   = "UBUNTU_CONTAINERD"
@@ -238,10 +232,7 @@ resource "google_container_node_pool" "sdv_openbsw_build_node_pool" {
   node_count     = var.openbsw_build_node_pool_node_count
   node_locations = var.node_locations
   node_config {
-    # Use Spot VMs for OpenBSW build workloads to reduce cost by ~60-70%.
-    # Spot VMs can be preempted by GCP; autoscaling will re-provision them.
-    # Set var.openbsw_build_node_pool_spot = false to revert to on-demand nodes.
-    spot         = var.openbsw_build_node_pool_spot
+    preemptible  = false
     machine_type = var.openbsw_build_node_pool_machine_type
     disk_size_gb = 500
     image_type   = "UBUNTU_CONTAINERD"
